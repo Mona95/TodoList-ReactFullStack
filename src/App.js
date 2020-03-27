@@ -1,7 +1,10 @@
 import React from "react";
+import { Header } from "./components/layout/Header";
+import { Content } from "./components/layout/Content";
 
 export const App = () => (
   <div>
-    <header>TodoList Application</header>
+    <Header />
+    <Content />
   </div>
 );
