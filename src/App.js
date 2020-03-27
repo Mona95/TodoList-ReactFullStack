@@ -1,11 +1,7 @@
 import React from "react";
 
-function App() {
-  return (
-    <div>
-      <header>TodoList Application</header>
-    </div>
-  );
-}
-
-export default App;
+export const App = () => (
+  <div>
+    <header>TodoList Application</header>
+  </div>
+);
