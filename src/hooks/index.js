@@ -3,6 +3,10 @@ import { firebase } from "./firebase";
 import { moment } from "moment";
 import { collectedTasksExist } from "../helpers";
 
+/**
+ * Getting Tasks from Database according to selectedProject
+ * @param {*} selectedProject
+ */
 export const useTasks = selectedProject => {
   const [tasks, settasks] = useState([]);
   useEffect(() => {
