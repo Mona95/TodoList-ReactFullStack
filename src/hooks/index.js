@@ -14,7 +14,7 @@ export const useTasks = selectedProject => {
   useEffect(() => {
     //store tasks collection from firebase
     let unsubscribe = firebase
-      .firebase()
+      .firestore()
       .collections("tasks")
       .where("userId", "==", "xQqnTrjP");
 
@@ -60,4 +60,33 @@ export const useTasks = selectedProject => {
   }, [selectedProject]);
 
   return { tasks, archivedTasks };
+};
+
+/**
+ * Getting Projects from Database
+ */
+export const useProjects = () => {
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    firebase
+      .firestore()
+      .collections("projects")
+      .where("userId", "==", "xQqnTrjP")
+      .orderBy("projectId")
+      .get()
+      .then(snapshot => {
+        const allProjects = snapshot.docs.map(project => ({
+          ...project.data(),
+          docId: projects.id //if we wanna delete, we need docId
+        }));
+        //this condition is for checking if for each update in projects
+        //allProjects coming from database is checking or don't
+        if (JSON.stringify(allProjects) !== JSON.stringify(projects)) {
+          setProjects(allProjects);
+        }
+      });
+  }, [projects]);
+
+  return { projects };
 };
