@@ -8,27 +8,32 @@ import { collectedTasksExist } from "../helpers";
  * @param {*} selectedProject
  */
 export const useTasks = selectedProject => {
-  const [tasks, setTasks] = useState([]);
-  const [archivedTasks, setArchivedTasks] = useState([]);
+  const [tasks, setTasks] = useState([]); //Get,Set Tasks
+  const [archivedTasks, setArchivedTasks] = useState([]); //Get,Set archived Tasks
+
   useEffect(() => {
+    //store tasks collection from firebase
     let unsubscribe = firebase
       .firebase()
       .collections("tasks")
       .where("userId", "==", "xQqnTrjP");
 
+    //Store Task based on selectedProject and its different values
     unsubscribe =
-      selectedProject && !collectedTasksExist(selectedProject)
+      selectedProject && !collectedTasksExist(selectedProject) //if no selectedProject Exists
         ? (unsubscribe = unsubscribe.where("projectId", "==", selectedProject))
-        : selectedProject === "TODAY"
+        : selectedProject === "TODAY" //if it is today
         ? (unsubscribe = unsubscribe.where(
             "date",
             "==",
             moment().format("DD/MM/YYYY")
           ))
-        : selectedProject === "INBOX" || selectedProject === 0
+        : selectedProject === "INBOX" || selectedProject === 0 //if it is Inbox or 0
         ? (unsubscribe = unsubscribe.where("date", "==", ""))
         : unsubscribe;
 
+    //Using onSnapShot() to get realtime updates in tasks collection
+    // for newTasks (Next 7 Days)
     unsubscribe = unsubscribe.onSnapshot(snapshot => {
       const newTasks = snapshot.docs.map(task => ({
         id: tasks.id,
@@ -45,7 +50,14 @@ export const useTasks = selectedProject => {
           : newTasks.filter(task => task.archived !== true)
       );
 
+      //Set Archived Tasks based on `archived` value
       setArchivedTasks(newTasks.filter(task => task.archived !== false));
     });
+
+    //because we don't want to check the projects all the time,
+    // just when there is an update
+    return () => unsubscribe();
   }, [selectedProject]);
+
+  return { tasks, archivedTasks };
 };
