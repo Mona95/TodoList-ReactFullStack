@@ -81,7 +81,7 @@ export const useProjects = () => {
           docId: projects.id //if we wanna delete, we need docId
         }));
         //this condition is for checking if for each update in projects
-        //allProjects coming from database is checking or don't
+        //allProjects coming from database is same or not
         if (JSON.stringify(allProjects) !== JSON.stringify(projects)) {
           setProjects(allProjects);
         }
