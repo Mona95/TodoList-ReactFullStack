@@ -296,12 +296,6 @@ header {
       }
     }
 
-    &.active,
-    &:hover {
-      font-weight: bold;
-      background-color: white;
-    }
-
     &:nth-child(1) {
       .sidebar__dot {
         color: #6accbc;

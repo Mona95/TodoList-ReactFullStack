@@ -19,13 +19,13 @@ export const Sidebar = () => (
         <span>
           <FaRegCalendar />
         </span>
-        <span>Today</span>
+        <span> Today</span>
       </li>
       <li data-testid="next_7" className="next_7">
         <span>
           <FaRegCalendarAlt />
         </span>
-        <span>Next 7 days</span>
+        <span> Next 7 days</span>
       </li>
     </ul>
     <div className="sidebar__middle">
